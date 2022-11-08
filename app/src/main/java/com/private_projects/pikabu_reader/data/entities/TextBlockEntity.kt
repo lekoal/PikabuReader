@@ -1,4 +1,4 @@
-package com.private_projects.pikabu_reader.data
+package com.private_projects.pikabu_reader.data.entities
 
 data class TextBlockEntity(
     val index: Int,
