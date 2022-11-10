@@ -1,4 +1,4 @@
-package com.private_projects.pikabu_reader.ui
+package com.private_projects.pikabu_reader.ui.best
 
 import com.private_projects.pikabu_reader.databinding.FragmentBestBinding
 import com.private_projects.pikabu_reader.utils.ViewBindingFragment

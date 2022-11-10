@@ -1,7 +1,7 @@
 package com.private_projects.pikabu_reader.data
 
 object PikabuUrlData {
-    val hot = "https://pikabu.ru/hot?page="
-    val best = "https://pikabu.ru/best?page="
-    val fresh = "https://pikabu.ru/fresh?page="
+    const val hot = "https://pikabu.ru/?page="
+    const val best = "https://pikabu.ru/best?page="
+    const val fresh = "https://pikabu.ru/fresh?page="
 }
