@@ -35,9 +35,6 @@ class MainActivity : AppCompatActivity() {
             val textView = TextView(this)
             textView.text = it[1].texts?.get(0)?.text
             findViewById<ConstraintLayout>(R.id.main_layout).addView(textView)
-            it.forEach { ent ->
-                println(ent.videos)
-            }
         }
 
     }

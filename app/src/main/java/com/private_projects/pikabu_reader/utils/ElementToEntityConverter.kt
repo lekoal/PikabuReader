@@ -27,39 +27,39 @@ class ElementToEntityConverter {
             )
 
             element.select("div.story-block").forEachIndexed { bIndex, block ->
-                if (block.attr("class") == "story-block story-block_type_text") {
-                    block.select("p").forEach { text ->
-                        val htmlText = "${text.html()}\n"
-                        val formattedText = htmlText.parseAsHtml()
-                        textList.add(
-                            TextBlockEntity(
+                when (block.attr("class")) {
+                    "story-block story-block_type_text" -> {
+                        block.select("p").forEach { text ->
+                            val htmlText = "${text.html()}\n"
+                            val formattedText = htmlText.parseAsHtml()
+                            textList.add(
+                                TextBlockEntity(
+                                    bIndex,
+                                    formattedText.toString()
+                                )
+                            )
+                        }
+                    }
+                    "story-block story-block_type_image" -> {
+                        block.select("a.image-link").let {
+                            imageList.add(
+                                ImageBlockEntity(
+                                    bIndex,
+                                    it.select("img")
+                                        .attr("data-large-image")
+                                )
+                            )
+                        }
+                    }
+                    "story-block story-block_type_video" -> {
+                        videoList.add(
+                            VideoBlockEntity(
                                 bIndex,
-                                formattedText.toString()
+                                block.select("div.player").attr("data-source")
+                                        + ".mp4"
                             )
                         )
                     }
-                }
-
-                if (block.attr("class") == "story-block story-block_type_image") {
-                    block.select("a.image-link").let {
-                        imageList.add(
-                            ImageBlockEntity(
-                                bIndex,
-                                it.select("img")
-                                    .attr("data-large-image")
-                            )
-                        )
-                    }
-                }
-
-                if (block.attr("class") == "story-block story-block_type_video") {
-                    videoList.add(
-                        VideoBlockEntity(
-                            bIndex,
-                            block.select("div.player").attr("data-source")
-                                    + ".mp4"
-                        )
-                    )
                 }
                 entityList.add(
                     CommonPostEntity(
@@ -73,5 +73,4 @@ class ElementToEntityConverter {
         }
         _resultEntity.postValue(entityList)
     }
-
 }
