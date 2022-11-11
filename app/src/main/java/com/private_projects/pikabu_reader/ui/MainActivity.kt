@@ -33,8 +33,9 @@ class MainActivity : AppCompatActivity() {
 
         converter.resultEntity.observe(this) {
             val textView = TextView(this)
-            textView.text = it[0].texts?.get(0)?.text
+            textView.text = it[1].texts?.get(0)?.text
             findViewById<ConstraintLayout>(R.id.main_layout).addView(textView)
+            println(it[1].images)
         }
 
     }

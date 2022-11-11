@@ -29,7 +29,7 @@ class ElementToEntityConverter {
             element.select("div.story-block").forEachIndexed { bIndex, block ->
                 if (block.attr("class") == "story-block story-block_type_text") {
                     block.select("p").forEach { text ->
-                        val htmlText = "${ text.html() }\n"
+                        val htmlText = "${text.html()}\n"
                         val formattedText = htmlText.parseAsHtml()
                         textList.add(
                             TextBlockEntity(
@@ -41,13 +41,15 @@ class ElementToEntityConverter {
                 }
 
                 if (block.attr("class") == "story-block story-block_type_image") {
-                    imageList.add(
-                        ImageBlockEntity(
-                            bIndex,
-                            block.select("a.image-link").select("img")
-                                .attr("src")
+                    block.select("a.image-link").let {
+                        imageList.add(
+                            ImageBlockEntity(
+                                bIndex,
+                                it.select("img")
+                                    .attr("data-large-image")
+                            )
                         )
-                    )
+                    }
                 }
 
                 if (block.attr("class") == "story-block story-block_type_video") {
