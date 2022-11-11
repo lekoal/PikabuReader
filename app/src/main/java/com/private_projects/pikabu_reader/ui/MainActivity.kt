@@ -1,15 +1,15 @@
 package com.private_projects.pikabu_reader.ui
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.private_projects.pikabu_reader.R
 import com.private_projects.pikabu_reader.data.ElementsReceiverImpl
 import com.private_projects.pikabu_reader.databinding.ActivityMainBinding
+import com.private_projects.pikabu_reader.domain.BEST
 import com.private_projects.pikabu_reader.domain.ElementsReceiver
-import com.private_projects.pikabu_reader.domain.HOT
 import com.private_projects.pikabu_reader.utils.ElementToEntityConverter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        elementsReceiver.get(HOT, 1)
+        elementsReceiver.get(BEST, 1)
 
         val converter = ElementToEntityConverter()
 
@@ -32,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         converter.resultEntity.observe(this) {
-            println(it[0])
+            val textView = TextView(this)
+            textView.text = it[0].texts?.get(0)?.text
+            findViewById<ConstraintLayout>(R.id.main_layout).addView(textView)
         }
 
     }

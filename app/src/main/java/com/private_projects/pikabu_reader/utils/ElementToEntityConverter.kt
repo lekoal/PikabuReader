@@ -1,5 +1,6 @@
 package com.private_projects.pikabu_reader.utils
 
+import androidx.core.text.parseAsHtml
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.private_projects.pikabu_reader.data.entities.*
@@ -11,10 +12,10 @@ class ElementToEntityConverter {
     val resultEntity: LiveData<List<CommonPostEntity>> = _resultEntity
 
     fun insertRawData(elements: List<Element>) {
-        val textList = mutableListOf<TextBlockEntity>()
-        val imageList = mutableListOf<ImageBlockEntity>()
-        val videoList = mutableListOf<VideoBlockEntity>()
         elements.forEach { element ->
+            val textList = mutableListOf<TextBlockEntity>()
+            val imageList = mutableListOf<ImageBlockEntity>()
+            val videoList = mutableListOf<VideoBlockEntity>()
             val postId = element.select("article").attr("data-story-id")
             val title = element.select("h2.story__title").text()
             val user = element.select("a.story__user-link user__nick").attr("data-name")
@@ -28,10 +29,12 @@ class ElementToEntityConverter {
             element.select("div.story-block").forEachIndexed { bIndex, block ->
                 if (block.attr("class") == "story-block story-block_type_text") {
                     block.select("p").forEach { text ->
+                        val htmlText = "${ text.html() }\n"
+                        val formattedText = htmlText.parseAsHtml()
                         textList.add(
                             TextBlockEntity(
                                 bIndex,
-                                text.text()
+                                formattedText.toString()
                             )
                         )
                     }
