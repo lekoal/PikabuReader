@@ -5,10 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class VideoBlockEntity(
-    val position: Int?,
-    val url: String?
-) {
     @PrimaryKey(autoGenerate = true)
-    var videoId: Long = 0
-    var videoOwnerId: Long = 1
-}
+    val videoBlockId: Long = 0,
+    val ownerId: String,
+    val position: Int,
+    val url: String
+)

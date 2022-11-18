@@ -1,15 +1,18 @@
 package com.private_projects.pikabu_reader.ui
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.private_projects.pikabu_reader.R
 import com.private_projects.pikabu_reader.data.ElementsReceiverImpl
 import com.private_projects.pikabu_reader.databinding.ActivityMainBinding
-import com.private_projects.pikabu_reader.domain.BEST
+import com.private_projects.pikabu_reader.domain.CommonDatabaseHelper
 import com.private_projects.pikabu_reader.domain.ElementsReceiver
+import com.private_projects.pikabu_reader.domain.HOT
 import com.private_projects.pikabu_reader.utils.ElementToEntityConverter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.get
+import org.koin.core.qualifier.named
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,13 +20,16 @@ class MainActivity : AppCompatActivity() {
     private val elementsReceiver: ElementsReceiver by lazy {
         ElementsReceiverImpl()
     }
+    private val databaseHelper: CommonDatabaseHelper by lazy {
+        get(named("common_database_helper"))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        elementsReceiver.get(BEST, 1)
+        elementsReceiver.get(HOT, 1)
 
         val converter = ElementToEntityConverter()
 
@@ -32,10 +38,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         converter.resultEntity.observe(this) {
-            val textView = TextView(this)
-            textView.text = it[1].texts?.get(0)?.text
-            findViewById<ConstraintLayout>(R.id.main_layout).addView(textView)
-        }
 
+            CoroutineScope(Dispatchers.IO).launch {
+                it.forEach { commonPostEntity ->
+                    databaseHelper.insertPartialPost(commonPostEntity.postEntity)
+                    commonPostEntity.texts?.forEach { text ->
+                        databaseHelper.insertText(text)
+                    }
+                    commonPostEntity.images?.forEach { image ->
+                        databaseHelper.insertImage(image)
+                    }
+                    commonPostEntity.videos?.forEach { video ->
+                        databaseHelper.insertVideo(video)
+                    }
+                }
+            }
+        }
     }
 }

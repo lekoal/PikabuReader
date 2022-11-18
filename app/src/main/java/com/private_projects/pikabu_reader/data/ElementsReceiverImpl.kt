@@ -39,14 +39,7 @@ class ElementsReceiverImpl : ElementsReceiver {
                     elements =
                         document?.select("article.story")
                     elements?.forEach { element ->
-                        val article = element.select("article")
-                        if (article.attr("class") !=
-                            "story story_tags-at-top" ||
-                            article.attr("data-ad-type") !=
-                            "feed"
-                        ) {
-                            tempList.add(element)
-                        }
+                        tempList.add(element)
                     }
                 }
                 elementList.postValue(tempList)

@@ -5,10 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ImageBlockEntity(
-    val position: Int?,
-    val url: String?
-) {
     @PrimaryKey(autoGenerate = true)
-    var imageId: Long = 0
-    var imageOwnerId: Long = 1
-}
+    val imageBlockId: Long = 0,
+    val ownerId: String,
+    val position: Int,
+    val url: String
+)

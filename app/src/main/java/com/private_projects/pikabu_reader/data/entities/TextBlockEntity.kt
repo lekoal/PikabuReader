@@ -5,10 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class TextBlockEntity(
-    val position: Int?,
-    val text: String?
-) {
     @PrimaryKey(autoGenerate = true)
-    var textId: Long = 0
-    var textOwnerId: Long = 1
-}
+    val textBlockId: Long = 0,
+    val ownerId: String,
+    val position: Int,
+    val text: String
+)

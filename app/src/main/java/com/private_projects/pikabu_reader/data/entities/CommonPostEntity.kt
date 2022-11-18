@@ -1,29 +1,27 @@
 package com.private_projects.pikabu_reader.data.entities
 
 import androidx.room.Embedded
-import androidx.room.Entity
 import androidx.room.Relation
 
-@Entity
 data class CommonPostEntity(
     @Embedded
     val postEntity: PostEntity,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "postId",
         entity = TextBlockEntity::class,
-        entityColumn = "textOwnerId"
+        entityColumn = "ownerId"
     )
     val texts: List<TextBlockEntity>?,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "postId",
         entity = ImageBlockEntity::class,
-        entityColumn = "imageOwnerId"
+        entityColumn = "ownerId"
     )
     val images: List<ImageBlockEntity>?,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "postId",
         entity = VideoBlockEntity::class,
-        entityColumn = "videoOwnerId"
+        entityColumn = "ownerId"
     )
     val videos: List<VideoBlockEntity>?
 

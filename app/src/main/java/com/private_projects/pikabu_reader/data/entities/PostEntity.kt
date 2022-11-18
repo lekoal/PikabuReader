@@ -5,13 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "posts")
 class PostEntity(
+    @PrimaryKey
     val postId: String,
     val title: String,
     val user: String,
     val rating: String,
-    val time: String,
-    val views: String
-) {
-    @PrimaryKey
-    var id: Long = 0
-}
+    val time: String
+)
