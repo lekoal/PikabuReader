@@ -14,7 +14,8 @@ class ElementToEntityConverter {
     fun insertRawData(elements: List<Element>) {
         entityList.clear()
         elements.forEach { element ->
-            if (element.select("a.user__nick").isNotEmpty()) {
+            if (element.select("a.user__nick").isNotEmpty() &&
+                element.select("time").isNotEmpty()) {
                 val textList = mutableListOf<TextBlockEntity>()
                 val imageList = mutableListOf<ImageBlockEntity>()
                 val videoList = mutableListOf<VideoBlockEntity>()
