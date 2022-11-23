@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.private_projects.pikabu_reader.data.ElementsReceiverImpl
 import com.private_projects.pikabu_reader.databinding.ActivityMainBinding
+import com.private_projects.pikabu_reader.domain.BEST
 import com.private_projects.pikabu_reader.domain.CommonDatabaseHelper
 import com.private_projects.pikabu_reader.domain.ElementsReceiver
-import com.private_projects.pikabu_reader.domain.HOT
 import com.private_projects.pikabu_reader.utils.ElementToEntityConverter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        elementsReceiver.get(HOT, 1)
+        elementsReceiver.get(BEST, 1)
 
         val converter = ElementToEntityConverter()
 
