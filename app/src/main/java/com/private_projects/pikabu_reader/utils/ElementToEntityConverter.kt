@@ -1,15 +1,13 @@
 package com.private_projects.pikabu_reader.utils
 
 import androidx.core.text.parseAsHtml
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.private_projects.pikabu_reader.data.entities.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.jsoup.nodes.Element
 
 class ElementToEntityConverter {
     private val entityList = mutableListOf<CommonPostEntity>()
-    private val _resultEntity = MutableLiveData<List<CommonPostEntity>>()
-    val resultEntity: LiveData<List<CommonPostEntity>> = _resultEntity
 
     fun insertRawData(elements: List<Element>) {
         entityList.clear()
@@ -81,6 +79,9 @@ class ElementToEntityConverter {
             }
 
         }
-        _resultEntity.postValue(entityList)
+    }
+
+    fun getData(): Flow<List<CommonPostEntity>> = flow {
+        emit(entityList)
     }
 }

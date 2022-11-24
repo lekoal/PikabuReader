@@ -1,10 +1,11 @@
 package com.private_projects.pikabu_reader.data
 
-import androidx.lifecycle.MutableLiveData
 import com.private_projects.pikabu_reader.domain.ElementsReceiver
 import com.private_projects.pikabu_reader.utils.LinkReceiver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.jsoup.Connection
 import org.jsoup.Connection.Response
@@ -20,7 +21,7 @@ class ElementsReceiverImpl : ElementsReceiver {
     private var elements: Elements? = null
     private var resp: Response? = null
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
-    override val elementList = MutableLiveData<List<Element>>()
+    override val elementList = mutableListOf<Element>()
 
     override fun get(chapter: String, page: Int) {
         val url = linkReceiver.get(chapter, page)
@@ -42,11 +43,15 @@ class ElementsReceiverImpl : ElementsReceiver {
                         tempList.add(element)
                     }
                 }
-                elementList.postValue(tempList)
+                elementList.addAll(tempList)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
+    }
+
+    override fun getData(): Flow<List<Element>> = flow {
+        emit(elementList)
     }
 
     override fun response(): Response? {
