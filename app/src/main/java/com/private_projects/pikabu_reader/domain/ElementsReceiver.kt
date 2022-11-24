@@ -9,8 +9,6 @@ const val BEST = "best"
 const val FRESH = "fresh"
 
 interface ElementsReceiver {
-    val elementList: List<Element>
-    fun get(chapter: String, page: Int)
-    fun getData(): Flow<List<Element>>
+    fun get(chapter: String, page: Int): Flow<List<Element>>
     fun response() : Response?
 }

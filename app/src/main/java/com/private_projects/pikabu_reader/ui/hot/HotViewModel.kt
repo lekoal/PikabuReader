@@ -24,8 +24,7 @@ class HotViewModel(
 
     override fun receiveData(page: Int) {
         coroutineScope.launch {
-            elementsReceiver.get(HOT, page)
-            elementsReceiver.getData().collect { elements ->
+            elementsReceiver.get(HOT, page).collect { elements ->
                 convertData(elements)
             }
         }
@@ -33,8 +32,7 @@ class HotViewModel(
 
     private fun convertData(elements: List<Element>) {
         coroutineScope.launch {
-            converter.insertRawData(elements)
-            converter.getData().collect { resultList ->
+            converter.insertRawData(elements).collect { resultList ->
                 resultList.forEach { commonPostEntity ->
                     databaseHelper.insertPartialPost(commonPostEntity.postEntity)
                     commonPostEntity.texts?.forEach { text ->

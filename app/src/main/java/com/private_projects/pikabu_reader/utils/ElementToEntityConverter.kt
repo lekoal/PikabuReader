@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.flow
 import org.jsoup.nodes.Element
 
 class ElementToEntityConverter {
-    private val entityList = mutableListOf<CommonPostEntity>()
 
-    fun insertRawData(elements: List<Element>) {
-        entityList.clear()
+    fun insertRawData(elements: List<Element>): Flow<List<CommonPostEntity>> = flow {
+        val entityList = mutableListOf<CommonPostEntity>()
         elements.forEach { element ->
             if (element.select("a.user__nick").isNotEmpty() &&
-                element.select("time").isNotEmpty()) {
+                element.select("time").isNotEmpty()
+            ) {
                 val textList = mutableListOf<TextBlockEntity>()
                 val imageList = mutableListOf<ImageBlockEntity>()
                 val videoList = mutableListOf<VideoBlockEntity>()
@@ -77,11 +77,7 @@ class ElementToEntityConverter {
                     )
                 )
             }
-
         }
-    }
-
-    fun getData(): Flow<List<CommonPostEntity>> = flow {
         emit(entityList)
     }
 }
