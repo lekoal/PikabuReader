@@ -2,4 +2,6 @@
     <string name="app_name">Pikabu Reader</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_title_hot">Горячее</string>
+    <string name="tab_title_best">Лучшее</string>
+    <string name="tab_title_fresh">Свежее</string>
 </resources>

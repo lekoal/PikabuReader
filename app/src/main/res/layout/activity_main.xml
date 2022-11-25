@@ -5,7 +5,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
@@ -30,10 +30,11 @@
             android:layout_height="match_parent"
             android:paddingVertical="10dp"
             app:tabBackground="@color/blue_grey_900"
-            app:tabGravity="start"
+            app:tabGravity="center"
+            android:background="@color/blue_grey_900"
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/blue_grey_700" />
+            app:tabSelectedTextColor="@color/blue_grey_800" />
 
     </androidx.cardview.widget.CardView>
 
