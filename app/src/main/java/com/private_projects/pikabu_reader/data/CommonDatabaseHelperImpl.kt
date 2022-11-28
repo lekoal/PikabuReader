@@ -24,4 +24,11 @@ class CommonDatabaseHelperImpl(private val commonDatabase: CommonDatabase): Comm
     override suspend fun insertVideo(video: VideoBlockEntity) {
         commonDatabase.getVideoDao().insert(video)
     }
+
+    override suspend fun clearDB() {
+        commonDatabase.getPartialPostDao().deleteAll()
+        commonDatabase.getTextDao().deleteAll()
+        commonDatabase.getImageDao().deleteAll()
+        commonDatabase.getVideoDao().deleteAll()
+    }
 }

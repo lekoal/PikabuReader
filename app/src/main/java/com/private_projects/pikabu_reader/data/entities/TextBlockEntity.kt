@@ -3,7 +3,7 @@ package com.private_projects.pikabu_reader.data.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "texts")
 data class TextBlockEntity(
     @PrimaryKey(autoGenerate = true)
     val textBlockId: Long = 0,

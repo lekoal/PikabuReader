@@ -8,4 +8,5 @@ interface CommonDatabaseHelper {
     suspend fun insertText(text: TextBlockEntity)
     suspend fun insertImage(image: ImageBlockEntity)
     suspend fun insertVideo(video: VideoBlockEntity)
+    suspend fun clearDB()
 }

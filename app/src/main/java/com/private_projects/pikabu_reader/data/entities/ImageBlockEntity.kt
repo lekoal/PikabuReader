@@ -3,7 +3,7 @@ package com.private_projects.pikabu_reader.data.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "images")
 data class ImageBlockEntity(
     @PrimaryKey(autoGenerate = true)
     val imageBlockId: Long = 0,

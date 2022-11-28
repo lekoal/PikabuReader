@@ -6,10 +6,11 @@
     android:layout_marginTop="?actionBarSize"
     tools:context=".ui.hot.HotFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_hot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/hello_blank_fragment" />
+        tools:listitem="@layout/rv_hot_item"
+        android:padding="5dp" />
 
 </FrameLayout>

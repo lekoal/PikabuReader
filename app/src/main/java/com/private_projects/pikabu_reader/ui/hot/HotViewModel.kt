@@ -1,10 +1,13 @@
 package com.private_projects.pikabu_reader.ui.hot
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.private_projects.pikabu_reader.data.entities.CommonPostEntity
 import com.private_projects.pikabu_reader.domain.CommonDatabaseHelper
 import com.private_projects.pikabu_reader.domain.ElementsReceiver
 import com.private_projects.pikabu_reader.domain.HOT
+import com.private_projects.pikabu_reader.domain.PagerDataRepo
 import com.private_projects.pikabu_reader.ui.ViewModelContract
 import com.private_projects.pikabu_reader.utils.ElementToEntityConverter
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +19,9 @@ import org.jsoup.nodes.Element
 class HotViewModel(
     private val elementsReceiver: ElementsReceiver,
     private val databaseHelper: CommonDatabaseHelper,
-    private val converter: ElementToEntityConverter
-) : ViewModelContract(elementsReceiver, databaseHelper, converter) {
-    override val hotPosts = MutableLiveData<List<CommonPostEntity>>()
+    private val converter: ElementToEntityConverter,
+    private val pagerDataRepo: PagerDataRepo
+) : ViewModelContract(elementsReceiver, databaseHelper, converter, pagerDataRepo) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
@@ -49,10 +52,8 @@ class HotViewModel(
         }
     }
 
-    override fun readDataFromDB(limit: Int) {
-        coroutineScope.launch {
-            databaseHelper.getFullPosts(limit)
-        }
+    override fun readDataFromDB(): LiveData<PagingData<CommonPostEntity>> {
+        return pagerDataRepo.getPosts().cachedIn(coroutineScope)
     }
 
     override fun onCleared() {
