@@ -27,9 +27,8 @@ class HotFragment : ViewBindingFragment<FragmentHotBinding>(FragmentHotBinding::
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initRV()
         viewModel.receiveData(1)
+        initRV()
         submitPosts()
     }
 

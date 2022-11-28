@@ -73,10 +73,10 @@ class PagingHotAdapter :
         return HotViewHolder(binding)
     }
 
-    inner class HotViewHolder(view: RvHotItemBinding) : RecyclerView.ViewHolder(view.root) {
-        val layout: LinearLayout = view.rvHotItemLayout
-        val title: AppCompatTextView = view.title
-        val author: AppCompatTextView = view.author
-        val context: Context = view.root.context
+    inner class HotViewHolder(binding: RvHotItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val layout: LinearLayout = binding.rvHotItemLayout
+        val title: AppCompatTextView = binding.title
+        val author: AppCompatTextView = binding.author
+        val context: Context = binding.root.context
     }
 }
