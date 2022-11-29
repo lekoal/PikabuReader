@@ -3,18 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="?actionBarSize"
     android:layout_marginBottom="10dp"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title"
+        android:id="@+id/hot_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="22sp"
         tools:text="some title" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/author"
+        android:id="@+id/hot_item_author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"

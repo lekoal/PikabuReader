@@ -1,32 +1,29 @@
 package com.private_projects.pikabu_reader.ui.hot
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.lifecycle.MutableLiveData
 import com.private_projects.pikabu_reader.data.entities.CommonPostEntity
 import com.private_projects.pikabu_reader.domain.CommonDatabaseHelper
 import com.private_projects.pikabu_reader.domain.ElementsReceiver
 import com.private_projects.pikabu_reader.domain.HOT
-import com.private_projects.pikabu_reader.domain.PagerDataRepo
 import com.private_projects.pikabu_reader.ui.ViewModelContract
 import com.private_projects.pikabu_reader.utils.ElementToEntityConverter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.first
 import org.jsoup.nodes.Element
 
 class HotViewModel(
     private val elementsReceiver: ElementsReceiver,
     private val databaseHelper: CommonDatabaseHelper,
-    private val converter: ElementToEntityConverter,
-    private val pagerDataRepo: PagerDataRepo
-) : ViewModelContract(elementsReceiver, databaseHelper, converter, pagerDataRepo) {
+    private val converter: ElementToEntityConverter
+) : ViewModelContract(elementsReceiver, databaseHelper, converter) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    override val receivedPosts = MutableLiveData<List<CommonPostEntity>>()
+    override val isLoading = MutableLiveData<Boolean>()
 
     override fun receiveData(page: Int) {
         coroutineScope.launch {
+            isLoading.postValue(true)
             elementsReceiver.get(HOT, page).collect { elements ->
                 convertData(elements)
             }
@@ -52,8 +49,17 @@ class HotViewModel(
         }
     }
 
-    override fun readDataFromDB(): LiveData<PagingData<CommonPostEntity>> {
-        return pagerDataRepo.getPosts().cachedIn(coroutineScope)
+    override fun readDataFromDB() {
+        coroutineScope.launch {
+            try {
+                while (databaseHelper.getFullPosts().first().isEmpty()) {
+                    delay(100L)
+                }
+            } finally {
+                receivedPosts.postValue(databaseHelper.getFullPosts().first())
+                isLoading.postValue(false)
+            }
+        }
     }
 
     override fun onCleared() {

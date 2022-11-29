@@ -10,7 +10,22 @@
         android:id="@+id/rv_hot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/rv_hot_item"
-        android:padding="5dp" />
+        android:padding="5dp"
+        tools:listitem="@layout/rv_hot_item" />
+
+    <FrameLayout
+        android:id="@+id/block_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.6"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
 </FrameLayout>

@@ -19,6 +19,6 @@ object CommonDatabaseBuilder {
         Room.databaseBuilder(
             context.applicationContext,
             CommonDatabase::class.java,
-            "fullPostsDB"
+            "fullPostsDB.db"
         ).build()
 }

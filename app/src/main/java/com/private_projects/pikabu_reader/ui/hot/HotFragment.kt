@@ -2,12 +2,10 @@ package com.private_projects.pikabu_reader.ui.hot
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.private_projects.pikabu_reader.databinding.FragmentHotBinding
 import com.private_projects.pikabu_reader.utils.ViewBindingFragment
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import org.koin.core.qualifier.named
 
@@ -21,7 +19,7 @@ class HotFragment : ViewBindingFragment<FragmentHotBinding>(FragmentHotBinding::
         scope.get(named("hot_view_model"))
     }
 
-    private val adapter: PagingHotAdapter by lazy {
+    private val adapter: HotRVAdapter by lazy {
         scope.get(named("hot_adapter"))
     }
 
@@ -30,6 +28,7 @@ class HotFragment : ViewBindingFragment<FragmentHotBinding>(FragmentHotBinding::
         viewModel.receiveData(1)
         initRV()
         submitPosts()
+        checkLoading()
     }
 
     companion object {
@@ -45,10 +44,24 @@ class HotFragment : ViewBindingFragment<FragmentHotBinding>(FragmentHotBinding::
     }
 
     private fun submitPosts() {
-        lifecycleScope.launch {
-            viewModel.readDataFromDB().observe(viewLifecycleOwner) { pagingData ->
-                adapter.submitData(lifecycle, pagingData)
-            }
+        viewModel.readDataFromDB()
+        viewModel.receivedPosts.observe(viewLifecycleOwner) { posts ->
+            adapter.setData(posts)
+        }
+    }
+
+    private fun checkLoading() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            blockScreen(isLoading)
+        }
+    }
+
+    private fun blockScreen(isBlock: Boolean) {
+        binding.blockScreen.isClickable = isBlock
+        if (isBlock) {
+            binding.blockScreen.visibility = View.VISIBLE
+        } else {
+            binding.blockScreen.visibility = View.GONE
         }
     }
 

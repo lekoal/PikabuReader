@@ -3,10 +3,11 @@ package com.private_projects.pikabu_reader.data
 import com.private_projects.pikabu_reader.data.entities.*
 import com.private_projects.pikabu_reader.domain.CommonDatabase
 import com.private_projects.pikabu_reader.domain.CommonDatabaseHelper
+import kotlinx.coroutines.flow.Flow
 
 class CommonDatabaseHelperImpl(private val commonDatabase: CommonDatabase): CommonDatabaseHelper {
-    override suspend fun getFullPosts(size: Int): List<CommonPostEntity> {
-        return commonDatabase.getFullPostDao().getFullPost(size)
+    override suspend fun getFullPosts(): Flow<List<CommonPostEntity>> {
+        return commonDatabase.getFullPostDao().getFullPost()
     }
 
     override suspend fun insertPartialPost(data: PostEntity) {
